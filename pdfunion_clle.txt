@@ -1,0 +1,22 @@
+/* --------------------------------------------- */
+/* pdfunion(path outfile infile1 infile2)        */
+/* Chiama uno script python per l'unione di due pdf */
+/* in una determinata cartella IFS passata nel parametro path */
+/* --------------------------------------------- */
+             PGM        PARM(&path &outfile &infile1 &infile2)
+
+             DCL        VAR(&path) TYPE(*CHAR) LEN(030)
+             DCL        VAR(&outfile) TYPE(*CHAR) LEN(030)
+             DCL        VAR(&infile1) TYPE(*CHAR) LEN(030)
+             DCL        VAR(&infile2) TYPE(*CHAR) LEN(030)
+             DCL        var(&cmd) type(*char) len(256)
+
+ /* Create call command */
+             CHGVAR     VAR(&CMD) VALUE('/QOpenSys/pkgs/bin/python3' *BCAT +
+                          '/home/openSource/pdfunion/pdfUnion.py' *BCAT %TRIM(&PATH) *BCAT +
+                          %TRIM(&OUTFILE) *BCAT %TRIM(&INFILE1) *BCAT %TRIM(&INFILE2))
+
+ /* Call the Python script pdfUnion.py  */
+             QSH        CMD(&cmd)
+
+             ENDPGM 
